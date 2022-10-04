@@ -7,8 +7,6 @@
 . "$(dirname "$0")"/slack-notification-utils.sh
 
 function sendNotificationMerge() {
-	local -r message=prepareMessage "$TEMPLATE_MERGE_PATH" "$@"
-	postMessageToSlack "$message" 
+	local -r message=$(prepareMessage "$TEMPLATE_MERGE_PATH" "$@")
+	postMessageToSlack "$message" "$@"
 }
-
-prepareMessage "$TEMPLATE_MERGE_PATH" "$@"

@@ -7,26 +7,23 @@
 		}
 	},
 	{
-		"type": "divider"
-	},
-	{
 		"type": "section",
 		"fields": [
 			{
 				"type": "mrkdwn",
-				"text": "*Stage:*\nBuild"
+				"text": "*Stage:*\nBuild\n"
 			},
 			{
 				"type": "mrkdwn",
-				"text": "*Pushed By:*\n$GITLAB_USER_NAME *at*: $CI_COMMIT_TIMESTAMP"
+				"text": "*Pushed By:*\n$GITLAB_USER_NAME *at*: $CI_COMMIT_TIMESTAMP\n"
 			},
 			{
 				"type": "mrkdwn",
-				"text": "*Job URL:*\nGITLAB_REPO_URL/$CI_JOB_ID"
+				"text": "*Job URL:*\n$GITLAB_REPO_URL/$CI_JOB_ID\n"
 			},
 			{
 				"type": "mrkdwn",
-				"text": "*Commit URL:*\nGITLAB_REPO_URL$(git rev-parse HEAD)"
+				"text": "*Commit URL:*\n$GITLAB_REPO_URL $(git rev-parse HEAD)\n"
 			},
 			{
 				"type": "mrkdwn",
@@ -35,23 +32,6 @@
 			{
 				"type": "mrkdwn",
 				"text": "*Pipeline Status:*\n$CI_JOB_STATUS"
-			}
-		]
-	},
-	{
-		"type": "divider"
-	},
-	{
-		"type": "actions",
-		"elements": [
-			{
-				"type": "button",
-				"text": {
-					"type": "plain_text",
-					"emoji": true,
-					"text": "View PR"
-				},
-				"value": "btn-open-pr"
 			}
 		]
 	}
