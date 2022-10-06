@@ -3,8 +3,18 @@
 		"type": "section",
 		"text": {
 			"type": "mrkdwn",
-			"text": "$CI_PROJECT_TITLE"
+			"text": " "
 		}
+	},
+	{
+		"type": "section",
+		"text": {
+			"type": "mrkdwn",
+			"text": "${CI_PROJECT_TITLE}"
+		}
+	},
+	{
+		"type": "divider"
 	},
 	{
 		"type": "section",
@@ -15,24 +25,27 @@
 			},
 			{
 				"type": "mrkdwn",
-				"text": "*Pushed By:*\n$GITLAB_USER_NAME *at*: $CI_COMMIT_TIMESTAMP\n"
+				"text": "*Pushed By:*\n${GITLAB_USER_NAME} *at*: ${CI_COMMIT_TIMESTAMP}\n"
 			},
 			{
 				"type": "mrkdwn",
-				"text": "*Job URL:*\n$GITLAB_REPO_URL/$CI_JOB_ID\n"
+				"text": "*Job URL:*\n${CI_MERGE_REQUEST_PROJECT_URL}/-/pipelines/${CI_JOB_ID}\n"
 			},
 			{
 				"type": "mrkdwn",
-				"text": "*Commit URL:*\n$GITLAB_REPO_URL $(git rev-parse HEAD)\n"
+				"text": "*MR URL:*\n${CI_MERGE_REQUEST_PROJECT_URL}/-/merge_requests/${CI_MERGE_REQUEST_IID}\n"
 			},
 			{
 				"type": "mrkdwn",
-				"text": "*Commit Branch:*\n$CI_COMMIT_REF_NAME"
+				"text": "*MR Title:*\n${CI_MERGE_REQUEST_TITLE}"
 			},
 			{
 				"type": "mrkdwn",
-				"text": "*Pipeline Status:*\n$CI_JOB_STATUS"
+				"text": "*Origin Branch:*\n${CI_COMMIT_REF_NAME}"
 			}
 		]
+	},
+	{
+		"type": "divider"
 	}
 ]

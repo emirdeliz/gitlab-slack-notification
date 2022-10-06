@@ -1,0 +1,10 @@
+image: node:16.9.1
+variables:
+  SLACK_WEBHOOK_URL_REQUEST: "THLSB1VM4/B0454PY9UEN/QGNcKFIvZCEr5yAzBGK037dx"
+  SLACK_CHANNEL_TARGET: test-integration
+  NOTIFICATION_TYPE: merge
+slack-send-notification:
+  script:
+    - bash .slack/scripts/slack-notification.sh
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event' && $CI_MERGE_REQUEST_TARGET_BRANCH_PROTECTED

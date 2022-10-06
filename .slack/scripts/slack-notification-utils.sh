@@ -16,10 +16,11 @@ function postMessage() {
 
 function postMessageToSlack() {
 	local -r content=$1
-	local -r message=$(prepareSlackMessage "$content" "$@")
-	local -r slackUrlRequest=$(readArgFromCommandLine "$SLACK_WEBHOOK_URL_REQUEST_KEY" "$@")
+	local -r message=$(prepareSlackMessage "$content")
+	local -r slackUrlRequest=$SLACK_WEBHOOK_URL_REQUEST
 	local -r slackUrl="$SLACK_WEBHOOK_URL_REQUEST_BASE/$slackUrlRequest"
 	postMessage "$message" "$slackUrl"
+	# echo "$message" >&2
 }
 
 function getFileJsonFromPath() {
@@ -29,10 +30,10 @@ function getFileJsonFromPath() {
 }
 
 function replaceString() {
-	local -r str=$1
-	local -r toRemove=$2
-	local -r toReplace=$3
-	local -r result="${str//\$$toRemove/$toReplace}"
+	local -r str="$1"
+	local -r toReplaced="$2"
+	local -r toAdd="$3"
+	local -r result="${str//$toReplaced/$toAdd}"
 	echo "$result"
 }
 
@@ -41,22 +42,27 @@ function prepareMessage() {
 	local template
 	template=$(getFileJsonFromPath "$templatePath")
 
-	for arg in "$@"
+	local envArgs
+	envArgs="$(env)"
+	envArgs=("${envArgs//$' '/zzzyzzz}")S
+
+	for arg in $envArgs
 	do
 		# shellcheck disable=SC2207
-		local argMetadata=($(getArgKeyAndValue "$arg" "$@"))
+		local argMetadata=($(getKeyAndValueFromQueryParam "$arg" "$(env)"))
 		local argKey=${argMetadata[0]}
-		local argValue=${argMetadata[1]}
-		template=$(replaceString "$template" "$argKey" "$argValue")
+		local argValue
+		argValue=$(replaceString "${argMetadata[1]}" "zzzyzzz" " ")
+		template=$(replaceString "$template" "\${$argKey}" "$argValue")
 	done
 	echo "$template"
 }
 
-function getArgKeyAndValue() {
-	local -r arg="$1"
-	local -r argKey=$(echo "$arg" | cut -f1 -d=)
-	local -r argValue=$(readArgFromCommandLine "$argKey" "$@")
-	local result=("$argKey" "$argValue")
+function getKeyAndValueFromQueryParam() {
+	local -r param="$1"
+	local -r paramKey=$(echo "$param" | cut -f1 -d=)
+	local -r paramValue=$(readArgFromCommandLine "$paramKey" "$@")
+	local result=("$paramKey" "$paramValue")
 	echo "${result[@]}"
 }
 

@@ -7,7 +7,7 @@
 . "$(dirname "$0")"/slack-notification-utils.sh
 
 function sendNotification() {
-	local -r notificationType=$(readArgFromCommandLine "TYPE" "$@")
+	local -r notificationType=$NOTIFICATION_TYPE
 	case $notificationType in
 		"merge") sendNotificationMerge "$@";;
 		*)
